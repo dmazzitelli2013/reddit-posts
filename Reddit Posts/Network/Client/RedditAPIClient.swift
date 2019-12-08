@@ -21,7 +21,13 @@ class RedditAPIClient: BaseAPIClient {
     }
     
     func getPosts(_ after: String?, completion: @escaping([RedditPost]?, Error?) -> Void) {
-        let url = URL(string: "\(baseURL)?limit=\(pageSize)")
+        var urlString = "\(baseURL)?limit=\(pageSize)"
+        
+        if let after = after {
+            urlString.append("&after=t3_\(after)")
+        }
+        
+        let url = URL(string: urlString)
         let request = createRequestForURL(url!)
 
         let task = session.dataTask(with: request) { (data, response, error) in

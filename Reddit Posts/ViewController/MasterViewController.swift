@@ -12,7 +12,7 @@ class MasterViewController: UITableViewController {
 
     var detailViewController: DetailViewController? = nil
     var viewModel: RedditPostsViewModel = RedditPostsViewModel()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,22 +22,16 @@ class MasterViewController: UITableViewController {
             let controllers = split.viewControllers
             detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
         }
+                
+        tableView.register(UINib(nibName: RedditPostTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: RedditPostTableViewCell.identifier)
         
         viewModel.delegate = self
-        viewModel.fetchMorePosts()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         super.viewWillAppear(animated)
     }
-
-    /*@objc
-    func insertNewObject(_ sender: Any) {
-        objects.insert(NSDate(), at: 0)
-        let indexPath = IndexPath(row: 0, section: 0)
-        tableView.insertRows(at: [indexPath], with: .automatic)
-    }*/
 
     // MARK: - Segues
 
@@ -65,13 +59,29 @@ extension MasterViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if viewModel.canFetchMorePosts() {
+            return viewModel.visiblePosts.count + 1
+        }
+        
         return viewModel.visiblePosts.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let post = viewModel.visiblePosts[indexPath.row]
-        cell.textLabel!.text = post.title
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> RedditPostTableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: RedditPostTableViewCell.identifier, for: indexPath) as! RedditPostTableViewCell
+        
+        if indexPath.row < viewModel.visiblePosts.count {
+            cell.post = viewModel.visiblePosts[indexPath.row]
+        } else {
+            cell.post = nil
+            if viewModel.canFetchMorePosts() {
+                viewModel.fetchMorePosts()
+            }
+        }
+        
         return cell
     }
 
@@ -86,14 +96,37 @@ extension MasterViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showDetail", sender: nil)
+    }
+    
+    private func insertNewRows(newIndexes: [Int]) {
+        var indexPaths: [IndexPath] = []
+        for index in newIndexes {
+            indexPaths.append(IndexPath(row: index, section: 0))
+        }
+        
+        tableView.beginUpdates()
+        
+        if !viewModel.canFetchMorePosts() {
+            if let indexPath = tableView.indexPathsForVisibleRows?.last {
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+        }        
+        
+        tableView.insertRows(at: indexPaths, with: .left)
+        
+        tableView.endUpdates()
+    }
+    
 }
 
 // MARK: - RedditPosts View Model Delegate
 
 extension MasterViewController: RedditPostsViewModelDelegate {
     
-    func visiblePostsUpdated(posts: [RedditPost]) {
-        tableView.reloadData()
+    func visiblePostsUpdated(posts: [RedditPost], newIndexes: [Int]) {
+        insertNewRows(newIndexes: newIndexes)
     }
     
     func receivedError(description: String) {

@@ -28,9 +28,14 @@ class RedditPostMapper {
         
         guard let data = json["data"] as? [String: Any] else { return post }
         
+        post.id = data["id"] as? String
         post.title = data["title"] as? String
+        post.text = data["selftext"] as? String
+        post.author = data["author"] as? String
+        post.thumbnailUrl = data["thumbnail"] as? String
         post.numberComments = data["num_comments"] as? Int
-        
+        post.created = data["created_utc"] as? Double
+
         return post
     }
     

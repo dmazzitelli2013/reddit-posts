@@ -9,7 +9,7 @@
 import Foundation
 
 protocol RedditPostsViewModelDelegate: class {
-    func visiblePostsUpdated(posts: [RedditPost])
+    func visiblePostsUpdated(posts: [RedditPost], newIndexes: [Int])
     func receivedError(description: String)
 }
 
@@ -27,13 +27,19 @@ class RedditPostsViewModel {
     weak var delegate: RedditPostsViewModelDelegate?
     
     private(set) var visiblePosts: [RedditPost] = []
+    private(set) var isFetchingPosts: Bool = false
     
     func fetchMorePosts() {
-        if posts.count >= postsLimit {
+        if !canFetchMorePosts() {
             return
         }
         
-        RedditAPIClient.shared.getPosts(nil) { (posts, error) in
+        let after: String? = posts.last?.id
+        isFetchingPosts = true
+        
+        RedditAPIClient.shared.getPosts(after) { (posts, error) in
+            self.isFetchingPosts = false
+            
             if let error = error {
                 self.processError(error)
                 return
@@ -41,19 +47,31 @@ class RedditPostsViewModel {
             
             if let posts = posts {
                 self.filterVisiblePosts(posts)
-                
-                DispatchQueue.main.async {
-                    self.delegate?.visiblePostsUpdated(posts: self.visiblePosts)
-                }
             }
         }
     }
     
-    private func filterVisiblePosts(_ posts: [RedditPost]) {
-        self.posts = posts
+    func canFetchMorePosts() -> Bool {
+        return posts.count < postsLimit && !isFetchingPosts
+    }
+    
+    private func filterVisiblePosts(_ newPosts: [RedditPost]) {
+        posts.append(contentsOf: newPosts)
         
-        // TODO: filter
-        visiblePosts = posts
+        var indexes: [Int] = []
+        
+        for post in newPosts {
+            if !removedPosts.contains(where: { (currentPost) -> Bool in return post.id == currentPost.id}) {
+                visiblePosts.append(post)
+                indexes.append(visiblePosts.count - 1)
+            }
+        }
+        
+        print(posts.count)
+        
+        DispatchQueue.main.async {
+            self.delegate?.visiblePostsUpdated(posts: self.visiblePosts, newIndexes: indexes)
+        }
     }
     
     private func processError(_ error: Error) {
