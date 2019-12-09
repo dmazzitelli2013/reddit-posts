@@ -89,18 +89,13 @@ extension MasterViewController {
             }
         }
         
+        cell.delegate = self
+        
         return cell
     }
 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return false
-    }
-
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            viewModel.removeVisiblePost(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -128,7 +123,7 @@ extension MasterViewController {
             if let indexPath = tableView.indexPathsForVisibleRows?.last {
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
-        }        
+        }
         
         tableView.insertRows(at: indexPaths, with: .left)
         
@@ -152,6 +147,21 @@ extension MasterViewController: RedditPostsViewModelDelegate {
     
     func receivedError(description: String) {
         // TODO
+    }
+    
+}
+
+// MARK: - RedditPost TableViewCell Delegate
+
+extension MasterViewController: RedditPostTableViewCellDelegate {
+    
+    func dismissButtonPressed(post: RedditPost?) {
+        guard let post = post else { return }
+        
+        if let index = viewModel.visiblePosts.firstIndex(where: { (aPost) -> Bool in aPost.id == post.id }) {
+            viewModel.removeVisiblePost(at: index)
+            tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+        }
     }
     
 }

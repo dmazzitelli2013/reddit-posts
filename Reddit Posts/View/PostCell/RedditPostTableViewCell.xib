@@ -67,9 +67,25 @@
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DhQ-8N-Suj" userLabel="BottomView">
                                 <rect key="frame" x="0.0" y="112" width="372.5" height="28"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MCu-T7-lvA">
+                                        <rect key="frame" x="0.0" y="2" width="120" height="19.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="phv-pQ-BvX"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                        <inset key="titleEdgeInsets" minX="2" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Dismiss Post" image="multiply.circle" catalog="system"/>
+                                        <connections>
+                                            <action selector="dismissButtonPressed" destination="LiS-kq-SWI" eventType="touchUpInside" id="gGs-1w-BFF"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="28" id="d4p-oc-2CN"/>
+                                    <constraint firstItem="MCu-T7-lvA" firstAttribute="leading" secondItem="DhQ-8N-Suj" secondAttribute="leading" id="ewy-QQ-pZw"/>
+                                    <constraint firstItem="MCu-T7-lvA" firstAttribute="top" secondItem="DhQ-8N-Suj" secondAttribute="top" constant="2" id="tsS-gZ-xMA"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -101,6 +117,7 @@
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="dismissButton" destination="MCu-T7-lvA" id="tcT-zE-hPW"/>
                 <outlet property="hoursAgoLabel" destination="QgU-Rc-Hzx" id="b22-ZU-sf3"/>
                 <outlet property="loadingView" destination="fVt-hm-Cyk" id="c5a-LZ-8U0"/>
                 <outlet property="titleLabel" destination="8ju-Db-wqo" id="F56-eI-kgk"/>
@@ -109,4 +126,7 @@
             <point key="canvasLocation" x="100.00000000000001" y="-22.098214285714285"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="multiply.circle" catalog="system" width="64" height="62"/>
+    </resources>
 </document>

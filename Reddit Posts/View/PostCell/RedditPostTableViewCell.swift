@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol RedditPostTableViewCellDelegate: class {
+    func dismissButtonPressed(post: RedditPost?)
+}
+
 class RedditPostTableViewCell: UITableViewCell {
     
     static var identifier: String = "RedditPostTableViewCell"
@@ -16,6 +20,9 @@ class RedditPostTableViewCell: UITableViewCell {
     @IBOutlet weak var unreadView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var hoursAgoLabel: UILabel!
+    @IBOutlet weak var dismissButton: UIButton!
+    
+    weak var delegate: RedditPostTableViewCellDelegate?
     
     var post: RedditPost? {
         didSet { configureView() }
@@ -43,6 +50,10 @@ class RedditPostTableViewCell: UITableViewCell {
         adjustTitleLabelWidth()
     }
     
+    @IBAction func dismissButtonPressed() {
+        delegate?.dismissButtonPressed(post: post)
+    }
+    
     private func adjustTitleLabelWidth() {
         if let superview = titleLabel.superview {
             let width = unreadView.bounds.size.width + hoursAgoLabel.bounds.size.width + 20
@@ -63,6 +74,7 @@ class RedditPostTableViewCell: UITableViewCell {
         unreadView.isHidden = !loading
         titleLabel.isHidden = !loading
         hoursAgoLabel.isHidden = !loading
+        dismissButton.isHidden = !loading
     }
 
 }
