@@ -9,6 +9,7 @@
 import UIKit
 
 extension UIImageView {
+    
     func load(url: URL) {
         DispatchQueue.global().async { [weak self] in
             if let data = try? Data(contentsOf: url) {
@@ -16,8 +17,19 @@ extension UIImageView {
                     DispatchQueue.main.async {
                         self?.image = image
                     }
+                } else {
+                    self?.loadEmpty()
                 }
+            } else {
+                self?.loadEmpty()
             }
         }
     }
+    
+    private func loadEmpty() {
+        DispatchQueue.main.async {
+            self.image = nil
+        }
+    }
+    
 }

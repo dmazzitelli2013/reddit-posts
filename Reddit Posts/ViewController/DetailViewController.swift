@@ -10,9 +10,11 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
-    @IBOutlet weak var detailDescriptionLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var descriptionLabel: UILabel!
 
-    var detailItem: RedditPost? {
+    var post: RedditPost? {
         didSet {
             configureView()
         }
@@ -24,10 +26,22 @@ class DetailViewController: UIViewController {
     }
 
     func configureView() {
-        if let detail = detailItem {
-            if let label = detailDescriptionLabel {
-                label.text = detail.title
+        guard let post = post else { return }
+        
+        if let titleLabel = self.titleLabel {
+            titleLabel.text = post.title
+        }
+                
+        if let imageView = imageView {
+            if let urlString = post.thumbnailUrl, let url = URL(string: urlString) {
+                imageView.load(url: url)
+            } else {
+                imageView.image = nil
             }
+        }
+        
+        if let descriptionLabel = descriptionLabel {
+            descriptionLabel.text = post.text
         }
     }
 

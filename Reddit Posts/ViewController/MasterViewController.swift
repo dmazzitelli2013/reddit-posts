@@ -47,7 +47,7 @@ class MasterViewController: UITableViewController {
         if segue.identifier == "showDetail" {
             if let post = sender as? RedditPost {
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-                controller.detailItem = post
+                controller.post = post
                 controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
                 controller.navigationItem.leftItemsSupplementBackButton = true
                 detailViewController = controller

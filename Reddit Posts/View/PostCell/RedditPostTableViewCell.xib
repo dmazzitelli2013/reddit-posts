@@ -8,7 +8,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="gray" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="150" id="LiS-kq-SWI" customClass="RedditPostTableViewCell" customModule="Reddit_Posts" customModuleProvider="target">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="RedditPostTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="gray" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="RedditPostTableViewCell" rowHeight="150" id="LiS-kq-SWI" customClass="RedditPostTableViewCell" customModule="Reddit_Posts" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LiS-kq-SWI" id="X73-t5-ui4">
@@ -71,11 +71,20 @@
                                             <constraint firstAttribute="width" secondItem="MeM-Xf-cBw" secondAttribute="height" multiplier="1:1" id="NQE-0I-nJh"/>
                                         </constraints>
                                     </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K8j-TH-e7E">
+                                        <rect key="frame" x="86" y="0.0" width="286.5" height="17.5"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="MeM-Xf-cBw" firstAttribute="height" secondItem="Rr4-py-inG" secondAttribute="height" id="CDa-fu-umv"/>
+                                    <constraint firstItem="K8j-TH-e7E" firstAttribute="top" secondItem="Rr4-py-inG" secondAttribute="top" id="Jhq-jf-yVm"/>
+                                    <constraint firstAttribute="trailing" secondItem="K8j-TH-e7E" secondAttribute="trailing" id="Zfw-AS-QPl"/>
                                     <constraint firstItem="MeM-Xf-cBw" firstAttribute="centerY" secondItem="Rr4-py-inG" secondAttribute="centerY" id="aNU-1z-cBU"/>
+                                    <constraint firstItem="K8j-TH-e7E" firstAttribute="leading" secondItem="MeM-Xf-cBw" secondAttribute="trailing" constant="10" id="g2R-5B-OCR"/>
                                     <constraint firstItem="MeM-Xf-cBw" firstAttribute="leading" secondItem="Rr4-py-inG" secondAttribute="leading" id="vOq-Sf-XWE"/>
                                 </constraints>
                             </view>
@@ -140,6 +149,7 @@
             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="commentsLabel" destination="IaT-92-7mw" id="sYT-q6-n2F"/>
+                <outlet property="descriptionLabel" destination="K8j-TH-e7E" id="X0l-L2-vpU"/>
                 <outlet property="dismissButton" destination="MCu-T7-lvA" id="tcT-zE-hPW"/>
                 <outlet property="hoursAgoLabel" destination="QgU-Rc-Hzx" id="b22-ZU-sf3"/>
                 <outlet property="loadingView" destination="fVt-hm-Cyk" id="c5a-LZ-8U0"/>

@@ -21,6 +21,7 @@ class RedditPostTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var hoursAgoLabel: UILabel!
     @IBOutlet weak var thumbnailImageView: UIImageView!
+    @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var dismissButton: UIButton!
     @IBOutlet weak var commentsLabel: UILabel!
     
@@ -54,6 +55,8 @@ class RedditPostTableViewCell: UITableViewCell {
         } else {
             thumbnailImageView.image = nil
         }
+        
+        descriptionLabel.text = post.text
         
         if let comments = post.numberComments {
             commentsLabel.text = "\(comments) comments"
@@ -89,6 +92,7 @@ class RedditPostTableViewCell: UITableViewCell {
         titleLabel.isHidden = !loading
         hoursAgoLabel.isHidden = !loading
         thumbnailImageView.isHidden = !loading
+        descriptionLabel.isHidden = !loading
         dismissButton.isHidden = !loading
         commentsLabel.isHidden = !loading
     }
