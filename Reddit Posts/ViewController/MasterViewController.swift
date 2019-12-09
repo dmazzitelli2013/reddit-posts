@@ -146,7 +146,9 @@ extension MasterViewController: RedditPostsViewModelDelegate {
     }
     
     func receivedError(description: String) {
-        // TODO
+        let alert = UIAlertController(title: "Error", message: description, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
     
 }

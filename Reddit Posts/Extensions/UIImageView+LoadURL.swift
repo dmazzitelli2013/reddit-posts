@@ -16,6 +16,7 @@ extension UIImageView {
                 if let image = UIImage(data: data) {
                     DispatchQueue.main.async {
                         self?.image = image
+                        self?.isHidden = false
                     }
                 } else {
                     self?.loadEmpty()
@@ -29,6 +30,7 @@ extension UIImageView {
     private func loadEmpty() {
         DispatchQueue.main.async {
             self.image = nil
+            self.isHidden = true
         }
     }
     
