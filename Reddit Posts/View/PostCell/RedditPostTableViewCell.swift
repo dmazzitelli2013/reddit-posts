@@ -20,7 +20,9 @@ class RedditPostTableViewCell: UITableViewCell {
     @IBOutlet weak var unreadView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var hoursAgoLabel: UILabel!
+    @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var dismissButton: UIButton!
+    @IBOutlet weak var commentsLabel: UILabel!
     
     weak var delegate: RedditPostTableViewCellDelegate?
     
@@ -46,6 +48,18 @@ class RedditPostTableViewCell: UITableViewCell {
         unreadView.isHidden = !post.unread
         titleLabel.text = post.title
         hoursAgoLabel.text = "\(post.getHoursAgo()) hours ago"
+        
+        if let urlString = post.thumbnailUrl, let url = URL(string: urlString) {
+            thumbnailImageView.load(url: url)
+        } else {
+            thumbnailImageView.image = nil
+        }
+        
+        if let comments = post.numberComments {
+            commentsLabel.text = "\(comments) comments"
+        } else {
+            commentsLabel.text = ""
+        }
 
         adjustTitleLabelWidth()
     }
@@ -74,7 +88,9 @@ class RedditPostTableViewCell: UITableViewCell {
         unreadView.isHidden = !loading
         titleLabel.isHidden = !loading
         hoursAgoLabel.isHidden = !loading
+        thumbnailImageView.isHidden = !loading
         dismissButton.isHidden = !loading
+        commentsLabel.isHidden = !loading
     }
 
 }

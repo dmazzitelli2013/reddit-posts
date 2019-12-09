@@ -21,6 +21,7 @@
 		636E5AFF239D7A92002BFF69 /* RedditPostMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636E5AFE239D7A92002BFF69 /* RedditPostMapper.swift */; };
 		636E5B03239D8927002BFF69 /* RedditPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636E5B02239D8927002BFF69 /* RedditPostTableViewCell.swift */; };
 		636E5B05239D9310002BFF69 /* RedditPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 636E5B04239D930F002BFF69 /* RedditPostTableViewCell.xib */; };
+		6371C923239DF684006F6C4C /* UIImageView+LoadURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6371C922239DF684006F6C4C /* UIImageView+LoadURL.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		636E5AFE239D7A92002BFF69 /* RedditPostMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditPostMapper.swift; sourceTree = "<group>"; };
 		636E5B02239D8927002BFF69 /* RedditPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditPostTableViewCell.swift; sourceTree = "<group>"; };
 		636E5B04239D930F002BFF69 /* RedditPostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RedditPostTableViewCell.xib; sourceTree = "<group>"; };
+		6371C922239DF684006F6C4C /* UIImageView+LoadURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+LoadURL.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				636E5B00239D8900002BFF69 /* View */,
 				636E5AF2239D7591002BFF69 /* ViewModel */,
 				636E5AF1239D7588002BFF69 /* Model */,
+				6371C921239DF65B006F6C4C /* Extensions */,
 				636E5AE2239D74BC002BFF69 /* Main.storyboard */,
 				636E5AE5239D74BD002BFF69 /* Assets.xcassets */,
 				636E5AE7239D74BD002BFF69 /* LaunchScreen.storyboard */,
@@ -153,6 +156,14 @@
 				636E5B04239D930F002BFF69 /* RedditPostTableViewCell.xib */,
 			);
 			path = PostCell;
+			sourceTree = "<group>";
+		};
+		6371C921239DF65B006F6C4C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6371C922239DF684006F6C4C /* UIImageView+LoadURL.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,6 +242,7 @@
 				636E5ADB239D74BC002BFF69 /* AppDelegate.swift in Sources */,
 				636E5AFB239D7609002BFF69 /* RedditPost.swift in Sources */,
 				636E5ADD239D74BC002BFF69 /* SceneDelegate.swift in Sources */,
+				6371C923239DF684006F6C4C /* UIImageView+LoadURL.swift in Sources */,
 				636E5AFF239D7A92002BFF69 /* RedditPostMapper.swift in Sources */,
 				636E5B03239D8927002BFF69 /* RedditPostTableViewCell.swift in Sources */,
 				636E5AF9239D75EB002BFF69 /* RedditAPIClient.swift in Sources */,
