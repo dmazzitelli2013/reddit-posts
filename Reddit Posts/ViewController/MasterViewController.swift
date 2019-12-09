@@ -12,7 +12,7 @@ class MasterViewController: UITableViewController {
 
     var detailViewController: DetailViewController? = nil
     var viewModel: RedditPostsViewModel = RedditPostsViewModel()
-        
+            
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,12 +25,20 @@ class MasterViewController: UITableViewController {
                 
         tableView.register(UINib(nibName: RedditPostTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: RedditPostTableViewCell.identifier)
         
+        refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        tableView.refreshControl = refreshControl
+    
         viewModel.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         super.viewWillAppear(animated)
+    }
+    
+    @objc private func refreshData() {
+        viewModel.resetPosts()
+        viewModel.fetchMorePosts()
     }
 
     // MARK: - Segues
@@ -126,7 +134,12 @@ extension MasterViewController {
 extension MasterViewController: RedditPostsViewModelDelegate {
     
     func visiblePostsUpdated(posts: [RedditPost], newIndexes: [Int]) {
-        insertNewRows(newIndexes: newIndexes)
+        if let refreshing = refreshControl?.isRefreshing, refreshing {
+            tableView.reloadData()
+            refreshControl?.endRefreshing()
+        } else {
+            insertNewRows(newIndexes: newIndexes)
+        }
     }
     
     func receivedError(description: String) {

@@ -20,7 +20,15 @@ class RedditPost {
     var unread: Bool = true
     
     func getHoursAgo() -> Int {
-        return 0 // TODO
+        guard let created = created else {
+            return 0
+        }
+        
+        let now = Date().timeIntervalSince1970
+        let diff = now - created
+        let hours = diff / 3600
+        
+        return Int(hours)
     }
     
 }

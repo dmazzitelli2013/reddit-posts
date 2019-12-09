@@ -23,6 +23,7 @@ class RedditPostsViewModel {
     private var postsLimit: Int = 50
     private var posts: [RedditPost] = []
     private var removedPosts: [RedditPost] = []
+    private var readPosts: [RedditPost] = []
     
     weak var delegate: RedditPostsViewModelDelegate?
     
@@ -51,8 +52,25 @@ class RedditPostsViewModel {
         }
     }
     
+    func markPostAsRead(_ post: RedditPost) {
+        if !arrayContainsPost(readPosts, post: post) {
+            readPosts.append(post)
+        }
+    }
+    
+    func resetPosts() {
+        posts.removeAll()
+        visiblePosts.removeAll()
+    }
+    
     func canFetchMorePosts() -> Bool {
         return posts.count < postsLimit && !isFetchingPosts
+    }
+    
+    private func arrayContainsPost(_ array: [RedditPost], post: RedditPost) -> Bool {
+        return array.contains { (currentPost) -> Bool in
+            return post.id == currentPost.id
+        }
     }
     
     private func filterVisiblePosts(_ newPosts: [RedditPost]) {
@@ -61,21 +79,19 @@ class RedditPostsViewModel {
         var indexes: [Int] = []
         
         for post in newPosts {
-            if !removedPosts.contains(where: { (currentPost) -> Bool in return post.id == currentPost.id}) {
+            if !arrayContainsPost(removedPosts, post: post) {
                 visiblePosts.append(post)
                 indexes.append(visiblePosts.count - 1)
             }
         }
-        
-        print(posts.count)
-        
+                
         DispatchQueue.main.async {
             self.delegate?.visiblePostsUpdated(posts: self.visiblePosts, newIndexes: indexes)
         }
     }
     
     private func processError(_ error: Error) {
-        // TODO
+        delegate?.receivedError(description: error.localizedDescription)
     }
     
     func removeVisiblePost(at position: Int) {
