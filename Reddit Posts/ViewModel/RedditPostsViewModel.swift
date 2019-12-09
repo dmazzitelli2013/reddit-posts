@@ -54,6 +54,7 @@ class RedditPostsViewModel {
     
     func markPostAsRead(_ post: RedditPost) {
         if !arrayContainsPost(readPosts, post: post) {
+            post.unread = false
             readPosts.append(post)
         }
     }
@@ -79,6 +80,10 @@ class RedditPostsViewModel {
         var indexes: [Int] = []
         
         for post in newPosts {
+            if arrayContainsPost(readPosts, post: post) {
+                post.unread = false
+            }
+            
             if !arrayContainsPost(removedPosts, post: post) {
                 visiblePosts.append(post)
                 indexes.append(visiblePosts.count - 1)

@@ -35,7 +35,8 @@ class RedditPostTableViewCell: UITableViewCell {
         }
         
         hideViewsForLoading(true)
-        
+
+        unreadView.isHidden = !post.unread
         titleLabel.text = post.title
         hoursAgoLabel.text = "\(post.getHoursAgo()) hours ago"
 

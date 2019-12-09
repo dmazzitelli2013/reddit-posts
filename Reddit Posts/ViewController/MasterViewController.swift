@@ -45,8 +45,7 @@ class MasterViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
-            if let indexPath = tableView.indexPathForSelectedRow {
-                let post = viewModel.visiblePosts[indexPath.row]
+            if let post = sender as? RedditPost {
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
                 controller.detailItem = post
                 controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
@@ -105,7 +104,16 @@ extension MasterViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "showDetail", sender: nil)
+        if indexPath.row >= viewModel.visiblePosts.count {
+            return
+        }
+        
+        let post = viewModel.visiblePosts[indexPath.row]
+        viewModel.markPostAsRead(post)
+        
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+        
+        performSegue(withIdentifier: "showDetail", sender: post)
     }
     
     private func insertNewRows(newIndexes: [Int]) {
